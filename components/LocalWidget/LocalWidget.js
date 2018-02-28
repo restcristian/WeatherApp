@@ -22,7 +22,7 @@ const LocalWidget = (props) => {
             weatherIcon = <Ionicons name="ios-partly-sunny-outline" size={iconStyles.size} color={iconStyles.color} />
             break;
         case 'PART_CLOUDY_NIGHT':
-            weatherIcon = <Ionicons name="ios-partly-night-outline" size={iconStyles.size} color={iconStyles.color} />
+            weatherIcon = <Ionicons name="ios-cloudy-night-outline" size={iconStyles.size} color={iconStyles.color} />
             break;
         default:
             weatherIcon = <Ionicons name="ios-sunny-outline" size={iconStyles.size} color={iconStyles.color} />
@@ -34,8 +34,8 @@ const LocalWidget = (props) => {
                 {weatherIcon}
             </View>
             <View>
-                <Text style={[styles.txt, styles.cityTxt]}>{'London'.toUpperCase()}</Text>
-                <Text style={styles.txt}>{'Wednesday, Sept 25'.toUpperCase()}</Text>
+                <Text style={[styles.txt, styles.cityTxt]}>{props.city.toUpperCase()}</Text>
+                <Text style={styles.txt}>{props.date.toUpperCase()}</Text>
             </View>
         </View>
     );

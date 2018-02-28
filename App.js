@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, ImageBackground } from 'react-native';
 import Temperature from './components/Temperature/Temperature';
 import LocalWidget from './components/LocalWidget/LocalWidget';
+import ExtraInfo from './components/ExtraInfo/ExtraInfo';
 import { Ionicons } from '@expo/vector-icons';
 import { Font } from 'expo';
 
@@ -13,10 +14,9 @@ export default class App extends React.Component {
   };
 
   componentDidMount() {
-    
-    this._loadFontsAsync();    
+    this._loadFontsAsync();
   }
-  _loadFontsAsync = async() =>{
+  _loadFontsAsync = async () => {
     await Font.loadAsync({
       'Helvetica-Light': require('./assets/fonts/HelveticaNeue-Light.ttf'),
       'Helvetica-Ultra-Light': require('./assets/fonts/HelveticaNeue-UltraLight.ttf')
@@ -28,16 +28,20 @@ export default class App extends React.Component {
     if (this.state.isReady) {
       content = (
         <View>
-          <LocalWidget />
-          <Temperature value = {17} />
+          <LocalWidget
+            status="PART_CLOUDY_NIGHT"
+            city='London'
+            date='Wednesday, Sept 25' />
+          <Temperature value={17} />
+          <ExtraInfo />
         </View>
       )
     }
-    return(
+    return (
       <ImageBackground style={styles.container} source={require('./assets/bg.png')}>
         {content}
       </ImageBackground>
-    ) 
+    )
   }
 }
 
