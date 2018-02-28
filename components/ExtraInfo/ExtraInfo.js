@@ -5,7 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 const ExtraInfo = (props) => {
 
     const iconStyles = {
-        size:20,
+        size:22,
         color:'#fff'
     };
     return (
@@ -14,11 +14,11 @@ const ExtraInfo = (props) => {
                 <Text style = {styles.txt}>4kph</Text>
             </View>
             <View style = {styles.col}>
-                <Ionicons name="ios-umbrella-outline" size={iconStyles.size} color={iconStyles.color} />
+                <Ionicons name="ios-umbrella" size={iconStyles.size} color={iconStyles.color} />
                 <Text style = {styles.txt}>%35</Text>
             </View>
             <View style = {styles.col}>
-                <Ionicons name="ios-water-outline" size={iconStyles.size} color={iconStyles.color} />
+                <Ionicons name="ios-water" size={iconStyles.size} color={iconStyles.color} />
                 <Text style = {styles.txt}>%72</Text>
             </View>
         </View>
@@ -32,12 +32,13 @@ const styles = StyleSheet.create({
     },
     txt:{
         color:'#fff',
-        paddingLeft:8
+        paddingLeft:8,
+        fontSize:17
     },
     col:{
         flexDirection:'row',
-        paddingRight:6,
-        paddingLeft:6
+        paddingRight:12,
+        paddingLeft:12
     }
 })
 
