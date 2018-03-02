@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, ScrollView, Dimensions, Switch } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, ScrollView, Dimensions, Switch, ActivityIndicator } from 'react-native';
 import Temperature from './components/Temperature/Temperature';
 import LocalWidget from './components/LocalWidget/LocalWidget';
 import ExtraInfo from './components/ExtraInfo/ExtraInfo';
@@ -72,7 +72,7 @@ export default class App extends React.Component {
     });
   };
   render() {
-    let content = null;
+    let content = <ActivityIndicator size = "large" color = "#fff"/>;
 
     if (this.state.isReady && this.state.weatherInfo) {
       let SwitchColor = '#d29cc7';
