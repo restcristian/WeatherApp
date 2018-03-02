@@ -10,6 +10,7 @@ const NextDays = (props) => {
                 key = {idx}
                 date={item.date}
                 status={item.day.condition.text}
+                isDay={true}
                 temperature={props.isFarenheit ? item.day.avgtemp_f : item.day.avgtemp_c}
                 bgColor={colorList[idx]} />
         );
@@ -25,14 +26,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: 'row',
-    
     },
     cal: {
         flex: 1,
         backgroundColor: 'orange',
         justifyContent: 'center',
         alignItems: 'center',
-   
     }
 });
 export default NextDays;

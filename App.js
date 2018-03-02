@@ -4,7 +4,7 @@ import Temperature from './components/Temperature/Temperature';
 import LocalWidget from './components/LocalWidget/LocalWidget';
 import ExtraInfo from './components/ExtraInfo/ExtraInfo';
 import NextDays from './components/NextDays/NextDays';
-import { Font, Permissions, Location } from 'expo';
+import { Font, Permissions, Location, ScreenOrientation } from 'expo';
 import dateFormat from 'dateformat';
 import * as WeatherApi from './Global/WeatherApi';
 
@@ -22,6 +22,7 @@ export default class App extends React.Component {
   componentDidMount() {
     this._loadFontsAsync();
     this._loadLocationAsync();
+    ScreenOrientation.allow(ScreenOrientation.Orientation.PORTRAIT);
   }
   _initData = async () => {
     if (this.state.location) {
@@ -70,7 +71,7 @@ export default class App extends React.Component {
     let content = null;
 
     if (this.state.isReady && this.state.weatherInfo) {
-
+      let SwitchColor = '#d29cc7';
       content = (
         <View style={styles.content}>
           <View style={styles.switchWrapper}>
@@ -78,7 +79,7 @@ export default class App extends React.Component {
               <Text style={styles.switchTxt}>{this.state.isFarenheit ? 'F' : 'C'}</Text>
               <Switch
                 value={this.state.isFarenheit}
-                thumbTintColor="#d29cc7"
+                thumbTintColor={SwitchColor}
                 onValueChange={this._toggleTemperature}
               />
             </View>
@@ -86,7 +87,7 @@ export default class App extends React.Component {
               <Text style={styles.switchTxt}>{this.state.isMiles ? 'mph' : 'kph'}</Text>
               <Switch
                 value={this.state.isMiles}
-                thumbTintColor="#d29cc7"
+                thumbTintColor={SwitchColor}
                 onValueChange={this._toggleWindSpeedUnit}
               />
             </View>
