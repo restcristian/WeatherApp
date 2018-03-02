@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 
 
 const Temperature = (props) => {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
     container:{
     },
     tempText:{
-        fontSize:200,
+        fontSize:Dimensions.get('window').width /3,
         color:'#fff',
         fontFamily:'Helvetica-Light',
     }

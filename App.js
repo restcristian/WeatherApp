@@ -26,7 +26,7 @@ export default class App extends React.Component {
     ScreenOrientation.allow(ScreenOrientation.Orientation.PORTRAIT);
     setInterval(() => {
       this._loadLocationAsync();
-    }, Helper.convertMinsToMil(10));
+    }, Helper.convertMinsToMil(1));
   }
   _initData = async () => {
     if (this.state.location) {
@@ -76,6 +76,7 @@ export default class App extends React.Component {
 
     if (this.state.isReady && this.state.weatherInfo) {
       let SwitchColor = '#d29cc7';
+      let tintColor = '#d29cc7';
       content = (
         <View style={styles.content}>
           <View style={styles.switchWrapper}>
@@ -85,6 +86,7 @@ export default class App extends React.Component {
                 value={this.state.isFarenheit}
                 thumbTintColor={SwitchColor}
                 onValueChange={this._toggleTemperature}
+                tintColor = {tintColor}
               />
             </View>
             <View style={styles.switchBox}>
@@ -93,6 +95,7 @@ export default class App extends React.Component {
                 value={this.state.isMiles}
                 thumbTintColor={SwitchColor}
                 onValueChange={this._toggleWindSpeedUnit}
+                tintColor = {tintColor}
               />
             </View>
           </View>
