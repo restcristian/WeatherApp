@@ -7,6 +7,7 @@ import NextDays from './components/NextDays/NextDays';
 import { Font, Permissions, Location, ScreenOrientation } from 'expo';
 import dateFormat from 'dateformat';
 import * as WeatherApi from './Global/WeatherApi';
+import * as Helper from './Global/Helper';
 
 
 export default class App extends React.Component {
@@ -23,6 +24,9 @@ export default class App extends React.Component {
     this._loadFontsAsync();
     this._loadLocationAsync();
     ScreenOrientation.allow(ScreenOrientation.Orientation.PORTRAIT);
+    setInterval(() => {
+      this._loadLocationAsync();
+    }, Helper.convertMinsToMil(10));
   }
   _initData = async () => {
     if (this.state.location) {
@@ -59,9 +63,9 @@ export default class App extends React.Component {
       };
     });
   }
-  _toggleWindSpeedUnit = () =>{
-    this.setState((prevState) =>{
-      return{
+  _toggleWindSpeedUnit = () => {
+    this.setState((prevState) => {
+      return {
         ...prevState,
         isMiles: !prevState.isMiles
       };
@@ -140,7 +144,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 50,
     right: 13,
-    alignItems:'flex-end'
+    alignItems: 'flex-end'
   },
   switchBox: {
     flexDirection: 'row',
