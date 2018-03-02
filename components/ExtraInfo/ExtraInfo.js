@@ -5,22 +5,41 @@ import { Ionicons } from '@expo/vector-icons';
 const ExtraInfo = (props) => {
 
     const iconStyles = {
-        size:22,
-        color:'#fff'
+        size: 22,
+        color: '#fff'
     };
+    let windSpeed = null,
+        rainChance = null,
+        humidity = null;
+
+    if (props.windSpeed) {
+        windSpeed = (
+            <View style={styles.col}>
+                <Text style={styles.txt}>{props.windSpeed}</Text>
+            </View>
+        );
+    }
+    if(props.rainChance){
+        rainChance = (
+            <View style={styles.col}>
+                <Ionicons name="ios-umbrella" size={iconStyles.size} color={iconStyles.color} />
+                <Text style={styles.txt}>%{props.rainChance}</Text>
+            </View>
+        );
+    }
+    if(props.humidity){
+        humidity = (
+            <View style={styles.col}>
+                <Ionicons name="ios-water" size={iconStyles.size} color={iconStyles.color} />
+                <Text style={styles.txt}>%{props.humidity}</Text>
+            </View>
+        );
+    }
     return (
         <View style={styles.container}>
-            <View style = {styles.col}>
-                <Text style = {styles.txt}>4kph</Text>
-            </View>
-            <View style = {styles.col}>
-                <Ionicons name="ios-umbrella" size={iconStyles.size} color={iconStyles.color} />
-                <Text style = {styles.txt}>%35</Text>
-            </View>
-            <View style = {styles.col}>
-                <Ionicons name="ios-water" size={iconStyles.size} color={iconStyles.color} />
-                <Text style = {styles.txt}>%72</Text>
-            </View>
+            {windSpeed}
+            {rainChance}
+            {humidity}
         </View>
     )
 };
@@ -30,15 +49,15 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
     },
-    txt:{
-        color:'#fff',
-        paddingLeft:8,
-        fontSize:17
+    txt: {
+        color: '#fff',
+        paddingLeft: 8,
+        fontSize: 17
     },
-    col:{
-        flexDirection:'row',
-        paddingRight:12,
-        paddingLeft:12
+    col: {
+        flexDirection: 'row',
+        paddingRight: 12,
+        paddingLeft: 12
     }
 })
 
