@@ -1,52 +1,14 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import * as Helper from '../../Global/Helper';
 
 const LocalWidget = (props) => {
     const iconStyles = {
         size: 60,
         color: '#fff'
     };
-    let weatherIcon = <Ionicons name="ios-sunny-outline" size={iconStyles.size} color={iconStyles.color} />;
-    // switch (props.status) {
-    //     case 'SUNNY':
-    //         weatherIcon = <Ionicons name="ios-sunny-outline" size={iconStyles.size} color={iconStyles.color} />
-    //         break;
-    //     case 'NIGHT':
-    //         weatherIcon = <Ionicons name="weather-night" size={iconStyles.size} color={iconStyles.color} />
-    //         break;
-    //     case 'CLOUDY':
-    //         weatherIcon = <Ionicons name="ios-cloudy-outline" size={iconStyles.size} color={iconStyles.color} />
-    //         break;
-    //     case 'PART_CLOUDY_DAY':
-    //         weatherIcon = <Ionicons name="ios-partly-sunny-outline" size={iconStyles.size} color={iconStyles.color} />
-    //         break;
-    //     case 'PART_CLOUDY_NIGHT':
-    //         weatherIcon = <Ionicons name="ios-cloudy-night-outline" size={iconStyles.size} color={iconStyles.color} />
-    //         break;
-    //     case 'RAINY':
-    //         weatherIcon = <Ionicons name="ios-rainy-outline" size={iconStyles.size} color={iconStyles.color} />;
-    //         break;
-    //     default:
-    //         weatherIcon = <Ionicons name="ios-sunny-outline" size={iconStyles.size} color={iconStyles.color} />
-    //         break;
-    // }
-    let currentStatus = props.status.toUpperCase();
-    if(props.isDay && currentStatus.match(/SUN|OVER/g)){
-        weatherIcon = <Ionicons name="ios-sunny-outline" size={iconStyles.size} color={iconStyles.color} />
-    }
-    if(currentStatus.match(/RAIN|DRIZZ/g)){
-        weatherIcon = <Ionicons name="ios-rainy-outline" size={iconStyles.size} color={iconStyles.color} />;
-    }
-    if(currentStatus.match(/CLOUDY/g)){
-        weatherIcon = <Ionicons name="ios-cloudy-outline" size={iconStyles.size} color={iconStyles.color} />;
-    }
-    if(props.isDay && currentStatus.match(/CLOUD|SUN/g)){
-        weatherIcon = <Ionicons name="ios-partly-sunny-outline" size={iconStyles.size} color={iconStyles.color} />;
-    }
-    if(!props.isDay && currentStatus.match(/CLOUD|NIGHT/g)){
-        weatherIcon = <Ionicons name="ios-cloudy-night-outline" size={iconStyles.size} color={iconStyles.color} />;
-    }
+    
+    let weatherIcon = Helper.getWeatherIcon(iconStyles, props.status, props.isDay);
     
     return (
         <View style={styles.container} >

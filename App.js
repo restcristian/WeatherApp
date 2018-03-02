@@ -15,14 +15,13 @@ export default class App extends React.Component {
     isReady: false,
     location: null,
     weatherInfo: null,
-    isFarenheit:true,
-    isMiles:true
+    isFarenheit: true,
+    isMiles: true
   };
 
   componentDidMount() {
     this._loadFontsAsync();
     this._loadLocationAsync();
- 
   }
   _initData = async () => {
     if (this.state.location) {
@@ -31,8 +30,8 @@ export default class App extends React.Component {
         lgn: this.state.location.coords.longitude
       };
 
-      let weatherInfo = await WeatherApi.getCurrentWeather(locationInfo);
-      this.setState({weatherInfo:weatherInfo});
+      let weatherInfo = await WeatherApi.getCurrentWeather(locationInfo, 4);
+      this.setState({ weatherInfo: weatherInfo });
     }
   }
   _loadFontsAsync = async () => {
@@ -54,26 +53,29 @@ export default class App extends React.Component {
   };
   render() {
     let content = null;
-   
+
     if (this.state.isReady && this.state.weatherInfo) {
-      
+
       content = (
         <View style={styles.content}>
           <View style={styles.topSection}>
             <LocalWidget
               status={this.state.weatherInfo.current.condition.text}
               city={this.state.weatherInfo.location.region}
-              isDay = {!!this.state.weatherInfo.current.is_day}
-              date= {dateFormat(new Date(), "dddd, mmm dS")} />
+              isDay={!!this.state.weatherInfo.current.is_day}
+              date={dateFormat(new Date(), "dddd, mmm dS")} />
             <Temperature value={this.state.isFarenheit ? this.state.weatherInfo.current.temp_f : this.state.weatherInfo.current.temp_c} />
-            <ExtraInfo 
-              windSpeed = {(this.state.isMiles)? this.state.weatherInfo.current.wind_mph + 'mph' : this.state.weatherInfo.current.wind_kph + 'kph'}
-              rainChance = {this.state.weatherInfo.current.pressure_in}
-              humidity = {this.state.weatherInfo.current.humidity}
+            <ExtraInfo
+              windSpeed={(this.state.isMiles) ? this.state.weatherInfo.current.wind_mph + 'mph' : this.state.weatherInfo.current.wind_kph + 'kph'}
+              rainChance={this.state.weatherInfo.current.pressure_in}
+              humidity={this.state.weatherInfo.current.humidity}
             />
           </View>
           <View style={styles.footerSection}>
-            <NextDays />
+            <NextDays
+              isFarenheit = {this.state.isFarenheit}
+              forecastDays={this.state.weatherInfo.forecast.forecastday}
+            />
           </View>
         </View>
       );

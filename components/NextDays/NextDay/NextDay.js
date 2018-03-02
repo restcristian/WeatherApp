@@ -1,9 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import * as Helper from '../../../Global/Helper';
+import dateFormat from 'dateformat';
 
 const NextDay = (props) => {
-    let weatherIcon = null;
+   
     const iconStyles = {
         size: 48,
         color: '#fff'
@@ -15,32 +16,10 @@ const NextDay = (props) => {
         };
         dayStyles.push(passedStyles);
     }
-    switch (props.status) {
-        case 'SUNNY':
-            weatherIcon = <Ionicons name="ios-sunny-outline" size={iconStyles.size} color={iconStyles.color} />
-            break;
-        case 'NIGHT':
-            weatherIcon = <Ionicons name="weather-night" size={iconStyles.size} color={iconStyles.color} />
-            break;
-        case 'CLOUDY':
-            weatherIcon = <Ionicons name="ios-cloudy-outline" size={iconStyles.size} color={iconStyles.color} />
-            break;
-        case 'PART_CLOUDY_DAY':
-            weatherIcon = <Ionicons name="ios-partly-sunny-outline" size={iconStyles.size} color={iconStyles.color} />
-            break;
-        case 'PART_CLOUDY_NIGHT':
-            weatherIcon = <Ionicons name="ios-cloudy-night-outline" size={iconStyles.size} color={iconStyles.color} />
-            break;
-        case 'RAINY':
-            weatherIcon = <Ionicons name="ios-rainy-outline" size={iconStyles.size} color={iconStyles.color} />;
-            break;
-        default:
-            weatherIcon = <Ionicons name="ios-sunny-outline" size={iconStyles.size} color={iconStyles.color} />
-            break;
-    }
+    let weatherIcon = Helper.getWeatherIcon(iconStyles, props.status, props.isDay);
     return (
         <View style={dayStyles}>
-            <Text style={[styles.txt, styles.txtDay]}>{props.day}</Text>
+            <Text style={[styles.txt, styles.txtDay]}>{dateFormat(props.date, "dddd")}</Text>
             <View>
                 {weatherIcon}
             </View>
