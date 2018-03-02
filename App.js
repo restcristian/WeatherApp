@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, ImageBackground, ScrollView, Dimensions, Switch } from 'react-native';
 import Temperature from './components/Temperature/Temperature';
 import LocalWidget from './components/LocalWidget/LocalWidget';
 import ExtraInfo from './components/ExtraInfo/ExtraInfo';
@@ -49,7 +49,22 @@ export default class App extends React.Component {
       location = await Location.getCurrentPositionAsync({ enableHighAccuracy: true })
       this.setState({ location: location }, this._initData);
     }
-
+  };
+  _toggleTemperature = () => {
+    this.setState((prevState) => {
+      return {
+        ...prevState,
+        isFarenheit: !prevState.isFarenheit
+      };
+    });
+  }
+  _toggleWindSpeedUnit = () =>{
+    this.setState((prevState) =>{
+      return{
+        ...prevState,
+        isMiles: !prevState.isMiles
+      };
+    });
   };
   render() {
     let content = null;
@@ -58,6 +73,24 @@ export default class App extends React.Component {
 
       content = (
         <View style={styles.content}>
+          <View style={styles.switchWrapper}>
+            <View style={styles.switchBox}>
+              <Text style={styles.switchTxt}>{this.state.isFarenheit ? 'F' : 'C'}</Text>
+              <Switch
+                value={this.state.isFarenheit}
+                thumbTintColor="#d29cc7"
+                onValueChange={this._toggleTemperature}
+              />
+            </View>
+            <View style={styles.switchBox}>
+              <Text style={styles.switchTxt}>{this.state.isMiles ? 'mph' : 'kph'}</Text>
+              <Switch
+                value={this.state.isMiles}
+                thumbTintColor="#d29cc7"
+                onValueChange={this._toggleWindSpeedUnit}
+              />
+            </View>
+          </View>
           <View style={styles.topSection}>
             <LocalWidget
               status={this.state.weatherInfo.current.condition.text}
@@ -73,7 +106,7 @@ export default class App extends React.Component {
           </View>
           <View style={styles.footerSection}>
             <NextDays
-              isFarenheit = {this.state.isFarenheit}
+              isFarenheit={this.state.isFarenheit}
               forecastDays={this.state.weatherInfo.forecast.forecastday}
             />
           </View>
@@ -82,6 +115,7 @@ export default class App extends React.Component {
     }
     return (
       <ImageBackground style={styles.container} source={require('./assets/bg.png')}>
+
         {content}
       </ImageBackground>
     );
@@ -98,7 +132,24 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    width: '100%'
+    width: '100%',
+    position: 'relative'
+  },
+  switchWrapper: {
+    position: 'absolute',
+    top: 50,
+    right: 13,
+    alignItems:'flex-end'
+  },
+  switchBox: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  switchTxt: {
+    color: '#fff',
+    fontFamily: 'Helvetica-Light',
+    fontWeight: 'bold',
+    fontSize: 18
   },
   topSection: {
     flex: 1,
