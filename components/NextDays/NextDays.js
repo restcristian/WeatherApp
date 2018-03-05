@@ -12,7 +12,7 @@ const NextDays = (props) => {
                 status={item.day.condition.text}
                 isDay={true}
                 temperature={props.isFarenheit ? item.day.avgtemp_f : item.day.avgtemp_c}
-                bgColor={colorList[idx]} />
+                bgColor={colorList[idx % colorList.length]} />
         );
     });
     return (
