@@ -75,8 +75,8 @@ export default class App extends React.Component {
     let content = <ActivityIndicator size = "large" color = "#fff"/>;
 
     if (this.state.isReady && this.state.weatherInfo) {
-      let SwitchColor = '#d29cc7';
-      let tintColor = '#d29cc7';
+      const SwitchColor = '#d29cc7';
+      const tintColor = '#d29cc7';
       content = (
         <View style={styles.content}>
           <View style={styles.switchWrapper}>
