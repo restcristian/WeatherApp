@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ImageBackground, ScrollView, Dimensions, Switch, ActivityIndicator } from 'react-native';
+import {Easing, StyleSheet, Text, View, ImageBackground, ScrollView, Dimensions, Switch, ActivityIndicator, Animated } from 'react-native';
 import Temperature from './components/Temperature/Temperature';
 import LocalWidget from './components/LocalWidget/LocalWidget';
 import ExtraInfo from './components/ExtraInfo/ExtraInfo';
@@ -17,7 +17,8 @@ export default class App extends React.Component {
     location: null,
     weatherInfo: null,
     isFarenheit: true,
-    isMiles: true
+    isMiles: true,
+    fadeInAnimation: new Animated.Value(0)
   };
 
   componentDidMount() {
@@ -72,58 +73,64 @@ export default class App extends React.Component {
     });
   };
   render() {
-    let content = <ActivityIndicator size = "large" color = "#fff"/>;
+    let content = <ActivityIndicator size="large" color="#fff" />;
 
     if (this.state.isReady && this.state.weatherInfo) {
       const SwitchColor = '#d29cc7';
       const tintColor = '#d29cc7';
+      Animated.timing(this.state.fadeInAnimation, {
+        toValue:1,
+        duration:800,
+        easing:Easing.back()
+      }).start();
       content = (
-        <View style={styles.content}>
-          <View style={styles.switchWrapper}>
-            <View style={styles.switchBox}>
-              <Text style={styles.switchTxt}>{this.state.isFarenheit ? 'F' : 'C'}</Text>
-              <Switch
-                value={this.state.isFarenheit}
-                thumbTintColor={SwitchColor}
-                onValueChange={this._toggleTemperature}
-                tintColor = {tintColor}
+        <Animated.View style={{ flex: 1, width: '100%', opacity: this.state.fadeInAnimation }}>
+          <View style={styles.content}>
+            <View style={styles.switchWrapper}>
+              <View style={styles.switchBox}>
+                <Text style={styles.switchTxt}>{this.state.isFarenheit ? 'F' : 'C'}</Text>
+                <Switch
+                  value={this.state.isFarenheit}
+                  thumbTintColor={SwitchColor}
+                  onValueChange={this._toggleTemperature}
+                  tintColor={tintColor}
+                />
+              </View>
+              <View style={styles.switchBox}>
+                <Text style={styles.switchTxt}>{this.state.isMiles ? 'mph' : 'kph'}</Text>
+                <Switch
+                  value={this.state.isMiles}
+                  thumbTintColor={SwitchColor}
+                  onValueChange={this._toggleWindSpeedUnit}
+                  tintColor={tintColor}
+                />
+              </View>
+            </View>
+            <View style={styles.topSection}>
+              <LocalWidget
+                status={this.state.weatherInfo.current.condition.text}
+                city={this.state.weatherInfo.location.region}
+                isDay={!!this.state.weatherInfo.current.is_day}
+                date={dateFormat(new Date(), "dddd, mmm dS")} />
+              <Temperature value={this.state.isFarenheit ? this.state.weatherInfo.current.temp_f : this.state.weatherInfo.current.temp_c} />
+              <ExtraInfo
+                windSpeed={(this.state.isMiles) ? this.state.weatherInfo.current.wind_mph + 'mph' : this.state.weatherInfo.current.wind_kph + 'kph'}
+                rainChance={this.state.weatherInfo.current.pressure_in}
+                humidity={this.state.weatherInfo.current.humidity}
               />
             </View>
-            <View style={styles.switchBox}>
-              <Text style={styles.switchTxt}>{this.state.isMiles ? 'mph' : 'kph'}</Text>
-              <Switch
-                value={this.state.isMiles}
-                thumbTintColor={SwitchColor}
-                onValueChange={this._toggleWindSpeedUnit}
-                tintColor = {tintColor}
+            <View style={styles.footerSection}>
+              <NextDays
+                isFarenheit={this.state.isFarenheit}
+                forecastDays={this.state.weatherInfo.forecast.forecastday}
               />
             </View>
           </View>
-          <View style={styles.topSection}>
-            <LocalWidget
-              status={this.state.weatherInfo.current.condition.text}
-              city={this.state.weatherInfo.location.region}
-              isDay={!!this.state.weatherInfo.current.is_day}
-              date={dateFormat(new Date(), "dddd, mmm dS")} />
-            <Temperature value={this.state.isFarenheit ? this.state.weatherInfo.current.temp_f : this.state.weatherInfo.current.temp_c} />
-            <ExtraInfo
-              windSpeed={(this.state.isMiles) ? this.state.weatherInfo.current.wind_mph + 'mph' : this.state.weatherInfo.current.wind_kph + 'kph'}
-              rainChance={this.state.weatherInfo.current.pressure_in}
-              humidity={this.state.weatherInfo.current.humidity}
-            />
-          </View>
-          <View style={styles.footerSection}>
-            <NextDays
-              isFarenheit={this.state.isFarenheit}
-              forecastDays={this.state.weatherInfo.forecast.forecastday}
-            />
-          </View>
-        </View>
+        </Animated.View>
       );
     }
     return (
       <ImageBackground style={styles.container} source={require('./assets/bg.png')}>
-
         {content}
       </ImageBackground>
     );
